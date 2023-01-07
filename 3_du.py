@@ -1,6 +1,10 @@
 import json, math, sys
 from pyproj import Transformer
 
+
+sloupce = int(input("Zadejte počet sloupců:"))                                            #uživatel si zvolí velikost hrací plochy
+radky = int(input("Zadejte počet řádků:"))
+
 #Přečtení geojson souborů
 with open("adresy.geojson", encoding="utf-8") as f:
     adresy = json.load(f)
@@ -36,6 +40,8 @@ for f in kontejnery['features']:
     kontejnery_souradnice_jtsk.append(jtsk_adresy)
 print (kontejnery_souradnice_jtsk)
 
+
+
 #výpočet vzdálenosti
 def vypocet_vzdalenosti (x_k, y_k, x_a, y_a):
     hodnota = (x_k - x_a)**2 + (y_k - y_a)**2
@@ -43,7 +49,7 @@ def vypocet_vzdalenosti (x_k, y_k, x_a, y_a):
 
 seznam_nejmensi_vzdalenosti = []
 # funkce na výpočet nejmenších vzdaleností uživatelem zvolených adres ke kontejnerům v Praze  
-def vypocet_nejmensich_vzdalenosti(adresy):
+def zjisteni_nejmensich_vzdalenosti(adresy):
     index = 0
     for adresa in adresy:
         nejmensi_vzdalenost = 10000
@@ -58,8 +64,7 @@ def vypocet_nejmensich_vzdalenosti(adresy):
         index = index+1
 
 
-vypocet_nejmensich_vzdalenosti (adresy_souradnice_jtsk)
-print (adresy_souradnice_jtsk)
+
 
 # funkce na výpočet průměru nejmenších vzdaleností
 def vypocet_prumeru_min_vzdalenosti(data):
@@ -67,13 +72,13 @@ def vypocet_prumeru_min_vzdalenosti(data):
     for D in data:
         suma += D[3]
     prumer = suma/len(data)
-    print (prumer)
+    print ("Průměrná nejkratší vzdálenost je: "+ str(round(prumer))+" metru.")
     return prumer
     
-vypocet_prumeru_min_vzdalenosti(adresy_souradnice_jtsk)
+
 
 #funkce na výpočet maximální vzdálenosti k nejbližšímu kontejneru
-def vypocet_max_vzdalenosti(data):
+def nalezeni_max_vzdalenosti(data):
     max = -1
     ulice_max = None
     cislo_popisne_max = None
@@ -84,7 +89,18 @@ def vypocet_max_vzdalenosti(data):
             cislo_popisne_max = D[2]
     print(max)
     print(ulice_max)
-    print(cislo_popisne_max)
+    print("Nejdale ke kontejneru je to z adresy "+ str(ulice_max) + str(cislo_popisne_max)+" a to" +str(max)+" .")
     return max,ulice_max, cislo_popisne_max
 
-vypocet_max_vzdalenosti(adresy_souradnice_jtsk)
+def median(data):
+    vzdalenosti = [item[3] for item in data]
+    vzdalenosti.sort()
+    stred = len(vzdalenosti)//2
+    vysledek = (vzdalenosti[stred]+vzdalenosti[~stred])/2
+    print("Medián vzdáleností je: "+ str(round(vysledek)) 
+
+median(adresy_souradnice_jtsk)   
+
+zjisteni_nejmensich_vzdalenosti (adresy_souradnice_jtsk)
+vypocet_prumeru_min_vzdalenosti(adresy_souradnice_jtsk)
+nalezeni_max_vzdalenosti(adresy_souradnice_jtsk)
