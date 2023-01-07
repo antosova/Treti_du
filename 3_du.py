@@ -1,4 +1,4 @@
-import json, math
+import json, math, sys
 from pyproj import Transformer
 
 #výpočet vzdálenosti
@@ -36,8 +36,6 @@ for f in kontejnery['features']:
     kontejnery_souradnice_jtsk.append(jtsk_adresy)
 print (kontejnery_souradnice_jtsk)
 
-
-print ("toto je seznam nejm vzd")
 seznam_nejmensi_vzdalenosti = []
 # funkce na výpočet nejmenších vzdaleností uživatelem zvolených adres ke kontejnerům v Praze  
 def vypocet_nejmensich_vzdalenosti(adresy):
@@ -48,8 +46,19 @@ def vypocet_nejmensich_vzdalenosti(adresy):
             if (vzdalenost <= nejmensi_vzdalenost): 
                 nejmensi_vzdalenost = vzdalenost
         if (nejmensi_vzdalenost == 10000): 
-            print("nenalezeno")
+            sys.exit("Nebyl nalezen kontejner do vzálenosti 10 km")
         else: seznam_nejmensi_vzdalenosti.append(nejmensi_vzdalenost)
-vypocet_nejmensich_vzdalenosti(adresy_souradnice_jtsk)
 
+vypocet_nejmensich_vzdalenosti (adresy_souradnice_jtsk)
 print (seznam_nejmensi_vzdalenosti)
+
+
+def vypocet_prumerne_min_vzdalenosti(vzdalenosti):
+    suma = 0
+    for vzdalenost in vzdalenosti:
+        suma += vzdalenost
+    prumer = suma/len(vzdalenosti)
+    print (prumer)
+    return prumer
+    
+vypocet_prumerne_min_vzdalenosti(seznam_nejmensi_vzdalenosti)
