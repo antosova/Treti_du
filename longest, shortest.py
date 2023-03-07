@@ -15,7 +15,7 @@ def get_list_of_word(text):
     return words
 
 def find_longest_and_shortest(words):
-    min_len = len(min(words, key = len))
+    min_len = lengit (min(words, key = len))
     max_len = len(max(words, key = len))
   
     shortest = []
